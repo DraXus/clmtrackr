@@ -263,7 +263,7 @@ var clm = {
 				}
 				pointWeights = numeric.diag(pointWeights);
 			}
-		}
+		};
 		
 		/*
 		 *	starts the tracker to run on a regular interval
@@ -281,7 +281,7 @@ var clm = {
 			}
 			// start named timeout function
 			runnerTimeout = requestAnimFrame(runnerFunction);
-		}
+		};
 
 		/*
 		 *	stop the running tracker
@@ -289,7 +289,7 @@ var clm = {
 		this.stop = function() {
 			// stop the running tracker if any exists
 			cancelRequestAnimFrame(runnerTimeout);
-		}
+		};
 
 		/*
 		 *  element : canvas or video element
@@ -308,7 +308,7 @@ var clm = {
 					// send an event on no face found
 					var evt = document.createEvent("Event");
 					evt.initEvent("clmtrackrNotFound", true, true);
-					document.dispatchEvent(evt)
+					document.dispatchEvent(evt);
 					
 					return false;
 				}
@@ -371,7 +371,7 @@ var clm = {
 					// send event to signal that tracking was lost
 					var evt = document.createEvent("Event");
 					evt.initEvent("clmtrackrLost", true, true);
-					document.dispatchEvent(evt)
+					document.dispatchEvent(evt);
 					
 					return false;
 				}
@@ -589,7 +589,7 @@ var clm = {
 			// send an event on each iteration
 			var evt = document.createEvent("Event");
 			evt.initEvent("clmtrackrIteration", true, true);
-			document.dispatchEvent(evt)
+			document.dispatchEvent(evt);
 			
 			if (this.getConvergence() < 0.5) {
 				// we must get a score before we can say we've converged
@@ -600,13 +600,13 @@ var clm = {
 
 					var evt = document.createEvent("Event");
 					evt.initEvent("clmtrackrConverged", true, true);
-					document.dispatchEvent(evt)
+					document.dispatchEvent(evt);
 				}
 			}
 			
 			// return new points
 			return currentPositions;
-		}
+		};
 
 		/*
 		 *	reset tracking, so that track() will start a new detection
@@ -620,7 +620,7 @@ var clm = {
 			}
 			runnerElement = undefined;
 			runnerBox = undefined;
-		}
+		};
 
 		/*
 		 *	draw model on given canvas
@@ -654,7 +654,7 @@ var clm = {
 					drawPath(cc, paths[i], params);
 				}
 			}
-		}
+		};
 
 		/*
 		 * 	get the score of the current model fit
@@ -662,14 +662,14 @@ var clm = {
 		 */
 		this.getScore = function() {
 			return meanscore;
-		}
+		};
 
 		/*
 		 *	calculate positions based on parameters
 		 */
 		this.calculatePositions = function(parameters) {
 			return calculatePositions(parameters, true);
-		}
+		};
 		
 		/*
 		 *	get coordinates of current model fit
@@ -680,14 +680,14 @@ var clm = {
 			} else {
 				return currentPositions;
 			}
-		}
+		};
 		
 		/*
 		 *	get parameters of current model fit
 		 */
 		this.getCurrentParameters = function() {
 			return currentParameters;
-		}
+		};
 
 		/*
 		 *	Get the average of recent model movements
@@ -725,9 +725,9 @@ var clm = {
 			var diffX = currX-prevX;
 			var diffY = currY-prevY;
 			var msavg = ((diffX*diffX) + (diffY*diffY));
-			msavg /= previousPositions.length
+			msavg /= previousPositions.length;
 			return msavg;
-		}
+		};
 		
 		/*
 		 * Set response mode (only useful if webGL is available)
@@ -778,7 +778,7 @@ var clm = {
 			var startTime = (new Date()).getTime();
 			while (((new Date()).getTime() - startTime) < 16) {
 				var tracking = this.track(runnerElement, runnerBox);
-				if (!tracking) continue;
+				if (!tracking) continue; // WTF?
 			}
 		}.bind(this);
 		
@@ -790,7 +790,7 @@ var clm = {
 			} else if (type == 'sobel') {
 				return webglFi.getSobelResponses(patches);
 			}
-		}
+		};
 		
 		var getWebGLResponses = function(patches) {
 			if (responseMode == 'single') {
@@ -819,7 +819,7 @@ var clm = {
 				}
 				return blendedResponses;
 			}
-		}
+		};
 
 		// generates the jacobian matrix used for optimization calculations
 		var createJacobian = function(parameters, eigenVectors) {
@@ -861,7 +861,7 @@ var clm = {
 			}
 			
 			return jacobian;
-		}
+		};
 		
 		// calculate positions from parameters
 		var calculatePositions = function(parameters, useTransforms) {
@@ -885,7 +885,7 @@ var clm = {
 			}
 			
 			return positions;
-		}
+		};
 		
 		// detect position of face on canvas/video element
 		var detectPosition = function(el) {
@@ -916,7 +916,7 @@ var clm = {
 			}
 			
 			return candidate;
-		}
+		};
 		
 		// part one of meanshift calculation
 		var gpopt = function(responseWidth, currentPositionsj, updatePosition, vecProbs, responses, opj0, opj1, j, variance, scaling) {
@@ -938,7 +938,7 @@ var clm = {
 			}
 			
 			return vpsum;
-		}
+		};
 		
 		// part two of meanshift calculation
 		var gpopt2 = function(responseWidth, vecpos, updatePosition, vecProbs, vpsum, opj0, opj1, scaling) {
@@ -965,7 +965,7 @@ var clm = {
 			}
 			// for debugging
 			//return vecmatrix;
-		}
+		};
 		
 		// calculate score of current fit
 		var checkTracking = function() {			
@@ -1019,7 +1019,7 @@ var clm = {
 				}
 			}
 			return true;
-		}
+		};
 		
 		// get initial starting point for model
 		var getInitialPosition = function(element, box) {
@@ -1153,7 +1153,7 @@ var clm = {
 			currentPositions = calculatePositions(currentParameters, true);
 			
 			return [scaling, rotation, translateX, translateY];
-		}
+		};
 		
 		// draw a parametrized line on a canvas
 		var drawPath = function(canvasContext, path, dp) {
@@ -1181,7 +1181,7 @@ var clm = {
 			canvasContext.moveTo(0,0);
 			canvasContext.closePath();
 			canvasContext.stroke();
-		}
+		};
 		
 		// draw a point on a canvas
 		function drawPoint(canvasContext, point, dp) {
@@ -1306,7 +1306,7 @@ var clm = {
 				pscidata[(j*4)+3] = 255;
 			}
 			canvasContext.putImageData(psci, drawX, drawY);
-		}
+		};
 		
 		var requestAnimFrame = (function() {
 			return window.requestAnimationFrame ||
@@ -1330,4 +1330,4 @@ var clm = {
 		
 		return true;
 	}
-}
+};
