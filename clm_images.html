@@ -6,14 +6,14 @@
     <style>
         body {
             background-color: #f0f0f0;
-            margin: 0px auto;
+            margin: 0 auto;
             max-width: 1150px;
         }
 
         #overlay {
             position: absolute;
-            top: 0px;
-            left: 0px;
+            top: 0;
+            left: 0;
         }
 
         #container {
@@ -178,27 +178,20 @@
 
         // detect if tracker has converged
         document.addEventListener("clmtrackrConverged", function (event) {
-            console.log("clmtrackrConverged");
             document.getElementById('convergence').innerHTML = "CONVERGED";
             document.getElementById('convergence').style.backgroundColor = "#00FF00";
             // stop drawloop
             cancelRequestAnimFrame(drawRequest);
-            //positionLoop();
             var positions = ctrack.getCurrentPosition();
             if (positions) {
                 var positionString = "";
-                /*for (var p = 0;p < positions.length; p++) {
-                 positionString += "["+fileIndex+"]["+p+"] : ["+positions[p][0].toFixed(2)+","+positions[p][1].toFixed(2)+"]<br/>";
-                 }*/
                 // skip points 0 to 14 because they seems to be less accurate
                 for (var p = 15; p < positions.length; p++) {
                     for (var q = p + 1; q < positions.length; q++) {
-                        //positionString += "["+fileIndex+"]["+p+","+q+"]" + distance(positions[p], positions[q]).toFixed(2) + "<br/>";
                         positionString += distance(positions[p], positions[q]).toFixed(2) + ",";
                     }
                 }
                 var filename = fileList[fileIndex].name;
-                //console.log("FILENAME = " + filename);
                 var coordinates = filename.substring(0, filename.length - 4).split("-");
 
                 positionString += coordinates[0] + "," + coordinates[1] + "<br/>";
@@ -248,7 +241,6 @@
 
         // function to start showing images
         function loadImage() {
-            console.log("loadImage " + fileIndex);
             console.log(fileList[fileIndex]);
             //if (fileList.indexOf(fileIndex) < 0) {
             var reader = new FileReader();
@@ -257,7 +249,7 @@
                     // check if positions already exist in storage
 
                     // Render thumbnail.
-                    var canvas = document.getElementById('image')
+                    var canvas = document.getElementById('image');
                     var cc = canvas.getContext('2d');
                     var img = new Image();
                     img.onload = function () {
