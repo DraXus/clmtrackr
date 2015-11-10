@@ -8,7 +8,8 @@
  *
  * @return string
  */
-function getGridPositionFromCoordinates($x, $y) {
+function getGridPositionFromCoordinates($x, $y)
+{
     $horizontal = "left";
     $vertical = "top";
 
@@ -19,27 +20,28 @@ function getGridPositionFromCoordinates($x, $y) {
     if ($y >= 533) {
         $vertical = $y < 1066 ? "middle" : "bottom";
     }
+
     return $horizontal.$vertical;
 }
 
-if ($argc!=2) {
+if ($argc != 2) {
     echo "Syntax: php coordinates2grid.php <csv_file>\n";
     exit;
 }
 
 $file = fopen($argv[1], 'r');
 
-while($data = fgetcsv($file)) {
+while ($data = fgetcsv($file)) {
     $arraySize = count($data);
 
-    $positionX = $arraySize-2;
-    $positionY = $arraySize-1;
+    $positionX = $arraySize - 2;
+    $positionY = $arraySize - 1;
 
     $positionGrid = getGridPositionFromCoordinates((float) $data[$positionX], (float) $data[$positionY]);
 
     //echo $data[$positionX] . " " . $data[$positionY] . " " . $positionGrid . "\n";
 
-    echo implode(',', array_slice($data, 0, $arraySize-2)) . "," . $positionGrid . "\n";
+    echo implode(',', array_slice($data, 0, $arraySize - 2)).",".$positionGrid."\n";
 }
 
 fclose($file);
